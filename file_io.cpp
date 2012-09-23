@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
+#include <string>
 
 #include "analysis.h"
 #include "atom.h"
