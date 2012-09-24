@@ -41,6 +41,11 @@ bool prog_control::is_damped_md() { return damped_md; }
 
 bool prog_control::is_dummy_run() { return dummy_run; }
 
+//Temperature
+bool prog_control::thermo_status() {return thermo_switch; } 
+double prog_control::get_exp_temp() {return exp_temp; }
+
+
 //Periodic boundary conditions settings
 
 bool prog_control::get_pbc() { return pbc; }
@@ -108,7 +113,7 @@ void prog_control::output()
 bool command_line_argh(const int num_args, char **argh)
 {
 	//Usage text:
-	char usage_text[] = "Usage: mmm [-d|--damped-md] [--dummy] [-e|--epsilon <epsilon> [<unit>]]\n\t   [-h|--help [<command>]] [-i|--input-file <input file>]\n\t   [-n|--num-steps <number of steps>] [-o|--output-file <output file>]\n\t   [-p|--periodic-boundaries] [--print-initial-atom-data]\n\t   [-s|--integration-method] [--sigma <sigma> [<units>]]\n\t   [-z|--stepsize <stepsize> [<units>]] [--steps-per-output]";
+	char usage_text[] = "Usage: mmm [-d|--damped-md] [--dummy] [-e|--epsilon <epsilon> [<unit>]]\n\t   [-h|--help [<command>]] [-i|--input-file <input file>]\n\t   [-n|--num-steps <number of steps>] [-o|--output-file <output file>]\n\t   [-p|--periodic-boundaries] [--print-initial-atom-data]\n\t   [-s|--integration-method] [--sigma <sigma> [<units>]]\n\t   [-z|--stepsize <stepsize> [<units>]] [--steps-per-output] [-t|--temperature <desired temperature>]";
 	
 	if(num_args < 2)
 	{
@@ -134,6 +139,8 @@ bool command_line_argh(const int num_args, char **argh)
 				settings.dummy_run = 1;
 				continue;
 			}
+			//Check for thermostat settings
+			//Stuff stuff stuff
 			//Check for epsilon value
 			else if((strcmp(argh[i],"-e") == 0) || (strcmp(argh[i],"--epsilon") == 0))
 			{

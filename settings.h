@@ -26,6 +26,10 @@ class prog_control
 	bool damped_md;				//Use damped MD?
 	bool dummy_run;				//Is dummy run? (for checking settings are read correctly)
 	
+	//Temperature
+	bool thermo_switch;		//Is the thermostat on?
+	double exp_temp;		//Expected temperature value
+	
 	//Periodic boundary conditions settings
 	bool pbc;				//Use periodic boundariy conditions?
 	double cellsize;			//Size of the cell used for periodic boundaries
@@ -68,6 +72,10 @@ class prog_control
 		//Type of run
 		damped_md = 0;
 		dummy_run = 0;
+
+		//Temperature
+		thermo_switch = 0;
+		exp_temp = 275;
 		
 		//Periodic boundary conditions settings
 		pbc = 0;
@@ -97,6 +105,10 @@ class prog_control
 	//Type of run
 	bool is_damped_md();
 	bool is_dummy_run();
+
+	//Temperature
+	bool thermo_status();
+	double get_exp_temp();
 	
 	//Periodic boundary conditions settings
 	bool get_pbc();
