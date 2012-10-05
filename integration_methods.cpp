@@ -4,6 +4,9 @@
 #include "potentials.h"
 #include "settings.h"
 #include "integration_methods.h"
+#include "analysis.h"
+#include "thermostat.h"
+
 #include <cmath>
 #include <iostream>
 
@@ -35,6 +38,15 @@ void euler(atom *atoms, const int num_atoms)
 		if (settings.get_pbc() == 1) pbc_relocate_atoms(atoms[i].position);
 		atoms[i].velocity += atoms[i].acceleration * settings.get_stepsize();	
 	}
+	if(settings.thermo_status() ==1)
+	{
+		calculate_actual_temperature(atoms, num_atoms);
+		for(int i = 0; i < num_atoms; i++)
+		{
+			gaussian_thermostat(settings.actual_temp, settings.get_expected_temp(), atoms[i].velocity);
+			
+		}
+	} 
 }
 
 void velocity_verlet(atom *atoms, const int num_atoms)
@@ -53,6 +65,14 @@ void velocity_verlet(atom *atoms, const int num_atoms)
 	{
 		atoms[i].velocity += 0.5*atoms[i].acceleration*settings.get_stepsize();
 	}
+	if(settings.thermo_status() ==1)
+	{
+		calculate_actual_temperature(atoms, num_atoms);
+		for(int i = 0; i < num_atoms; i++)
+		{
+			gaussian_thermostat(settings.actual_temp, settings.get_expected_temp(), atoms[i].velocity);
+		}
+	} 
 }
 
 void runge_kutta(atom *atoms, const int num_atoms, atom* temp_atoms, atom *original_atoms)
@@ -106,4 +126,12 @@ void runge_kutta(atom *atoms, const int num_atoms, atom* temp_atoms, atom *origi
 		atoms[i].velocity += settings.get_stepsize()/6*temp_atoms[i].acceleration;
 	}
 	acceleration(atoms,num_atoms);
+	if(settings.thermo_status() ==1)
+	{
+		calculate_actual_temperature(atoms, num_atoms);
+		for(int i = 0; i < num_atoms; i++)
+		{
+			gaussian_thermostat(settings.actual_temp, settings.get_expected_temp(), atoms[i].velocity);
+		}
+	} 
 }

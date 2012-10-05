@@ -43,7 +43,8 @@ bool prog_control::is_dummy_run() { return dummy_run; }
 
 //Temperature
 bool prog_control::thermo_status() {return thermo_switch; } 
-double prog_control::get_exp_temp() {return exp_temp; }
+double prog_control::get_expected_temp() {return expected_temp; }
+bool prog_control::start_monitor_actual_temp() {return monitor_actual_temp; }
 
 
 //Periodic boundary conditions settings
@@ -107,6 +108,21 @@ void prog_control::output()
 	cout << " - Output file: \t\t" << settings.output_file_location << endl;
 	cout << " - Steps per output:\t\t"<< settings.steps_per_output << endl;
 
+	if(settings.thermo_status() == 1) 
+	{
+		cout << "Thermostat used" << endl; //TODO: allow for choice of thermostats
+		cout << "Desired temperature: " << settings.expected_temp << endl;
+		if (settings.start_monitor_actual_temp() == 1) 
+		{ 
+			cout << "Temperature is being monitored." << endl;
+		}
+		else
+		{
+			cout << "Temperature is not being monitored." << endl;
+		}
+	}
+	
+
 	cout << endl;
 }
 
@@ -139,8 +155,36 @@ bool command_line_argh(const int num_args, char **argh)
 				settings.dummy_run = 1;
 				continue;
 			}
+
 			//Check for thermostat settings
-			//Stuff stuff stuff
+			else if((strcmp(argh[i],"-t") || strcmp(argh[i],"--temperature")) ==0)
+			{
+				if((i+1) > num_args)
+				{
+					cout <<"Syntax error - to specify a temperature for the system, use format: -t <temperature>. Note that this is in Kelvins." << endl;
+					return 1;
+				}
+				else if (isdigit(argh[i][0]))
+				{
+					cout << "Syntax error - the temperature of the system must be entered as a number. Note that the unit is Kelvins." << endl;
+				}
+				else
+				{
+					settings.thermo_switch = 1;
+					settings.expected_temp = atof(argh[i+1]);
+					if (strcmp(argh[i+2],"monitor"))
+					{
+						settings.monitor_actual_temp = 1;
+						i+3;
+					}
+					else 
+					{
+						i+2;
+					}
+				}
+				continue;
+			}
+					
 			//Check for epsilon value
 			else if((strcmp(argh[i],"-e") == 0) || (strcmp(argh[i],"--epsilon") == 0))
 			{

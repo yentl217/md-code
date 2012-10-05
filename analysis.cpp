@@ -14,17 +14,23 @@ extern prog_control settings;
 //			Function definitions:				     //
 //***************************************************************************//
 
-double total_energy(atom *atoms, const int num_atoms)
+double kinetic_energy(atom *atoms, const int num_atoms)
 {
 	double kinetic_energy = 0;
+	for (int i = 0; i < num_atoms; i++)
+	{
+		kinetic_energy += 0.5*(atoms[i].atomic_mass)*dotproduct(atoms[i].velocity,atoms[i].velocity);
+	}
+	return kinetic_energy*0.000103642695;
+}
+
+double potential_energy(atom *atoms, const int num_atoms)
+{
 	double potential_energy = 0;
 	
 	//Loop over all of the atoms	
 	for (int i = 0; i < num_atoms; i++)
 	{
-		//Add ith atom's kinetic energy:
-		kinetic_energy += 0.5*(atoms[i].atomic_mass)*dotproduct(atoms[i].velocity,atoms[i].velocity);
-		
 		for (int j = i+1; j < num_atoms; j++)
 		{
 			//Calculate separation of atoms
@@ -65,7 +71,18 @@ double total_energy(atom *atoms, const int num_atoms)
 			}
 		}
 	}
-	
+	return potential_energy*0.000103642695;
 	//Convert to eV by: E * atomic_mass_unit * Angstroms^2 * ps^-2 / electron charge
-	return (kinetic_energy + potential_energy)*0.000103642695;
 }
+
+double total_energy(atom *atoms, const int num_atoms)
+{
+	return (kinetic_energy(atoms, num_atoms) + potential_energy(atoms, num_atoms));
+}
+
+void calculate_actual_temperature(atom *atoms, const int num_atoms)
+{
+	double temperature = 2*kinetic_energy(atoms, num_atoms)/(num_atoms*3*0.000086173324);
+	settings.actual_temp = temperature;
+}	
+

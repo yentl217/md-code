@@ -9,6 +9,7 @@
 #include "integration_methods.h"
 #include "settings.h"
 #include "vectron.h"
+#include "thermostat.h"
 
 using namespace std;
 
@@ -101,6 +102,10 @@ int main(int argc, char **argv)
 			cout << "Progress:" << setw(4) << ((100 *i)/settings.get_num_steps()) << "% ";
 			cout << "Total energy: " << setprecision(6) << current_energy << " eV\t(";
 			cout << setprecision(4) << (((current_energy - initial_energy)/initial_energy) * 100) << "% deviation from original)" << endl;	
+		}
+		if(settings.start_monitor_actual_temp() == 1)
+		{
+			cout << "Current Temperature is :" << settings.actual_temp << "K" << endl;
 		}
 	}
 	

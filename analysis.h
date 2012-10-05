@@ -17,7 +17,10 @@
 //TODO:		TESTING!!!! This only works with Lennard Jones, ought to be
 //		easy to change potential... :S.
 
+double kinetic_energy(atom *atoms, const int num_atoms);
+double potential_energy(atom *atoms, const int num_atoms);
 double total_energy(atom *atoms, const int num_atoms);
+void calculate_actual_temperature(atom *atoms, const int num_atoms);
 
 #endif
 

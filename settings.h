@@ -28,7 +28,8 @@ class prog_control
 	
 	//Temperature
 	bool thermo_switch;		//Is the thermostat on?
-	double exp_temp;		//Expected temperature value
+	double expected_temp;		//expected temperature
+	bool monitor_actual_temp;	//display actual temperature?
 	
 	//Periodic boundary conditions settings
 	bool pbc;				//Use periodic boundariy conditions?
@@ -75,7 +76,8 @@ class prog_control
 
 		//Temperature
 		thermo_switch = 0;
-		exp_temp = 275;
+		expected_temp = 298; //Kelvins
+		monitor_actual_temp = 0;
 		
 		//Periodic boundary conditions settings
 		pbc = 0;
@@ -108,7 +110,9 @@ class prog_control
 
 	//Temperature
 	bool thermo_status();
-	double get_exp_temp();
+	double get_expected_temp();
+	bool start_monitor_actual_temp();
+	double actual_temp;
 	
 	//Periodic boundary conditions settings
 	bool get_pbc();
