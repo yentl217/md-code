@@ -129,7 +129,7 @@ void prog_control::output()
 bool command_line_argh(const int num_args, char **argh)
 {
 	//Usage text:
-	char usage_text[] = "Usage: mmm [-d|--damped-md] [--dummy] [-e|--epsilon <epsilon> [<unit>]]\n\t   [-h|--help [<command>]] [-i|--input-file <input file>]\n\t   [-n|--num-steps <number of steps>] [-o|--output-file <output file>]\n\t   [-p|--periodic-boundaries] [--print-initial-atom-data]\n\t   [-s|--integration-method] [--sigma <sigma> [<units>]]\n\t   [-z|--stepsize <stepsize> [<units>]] [--steps-per-output] [-t|--temperature <desired temperature>]";
+	char usage_text[] = "Usage: mmm [-d|--damped-md] [--dummy] [-e|--epsilon <epsilon> [<unit>]]\n\t   [-h|--help [<command>]] [-i|--input-file <input file>]\n\t   [-n|--num-steps <number of steps>] [-o|--output-file <output file>]\n\t   [-p|--periodic-boundaries] [--print-initial-atom-data]\n\t   [-s|--integration-method] [--sigma <sigma> [<units>]]\n\t   [-z|--stepsize <stepsize> [<units>]] [--steps-per-output]\n\t    [-t|--temperature <desired temperature> [<monitor>]]";
 	
 	if(num_args < 2)
 	{
@@ -157,29 +157,30 @@ bool command_line_argh(const int num_args, char **argh)
 			}
 
 			//Check for thermostat settings
-			else if((strcmp(argh[i],"-t") || strcmp(argh[i],"--temperature")) ==0)
+			else if((strcmp(argh[i],"-t") ==0) || (strcmp(argh[i],"--temperature")==0))
 			{
 				if((i+1) > num_args)
 				{
 					cout <<"Syntax error - to specify a temperature for the system, use format: -t <temperature>. Note that this is in Kelvins." << endl;
 					return 1;
 				}
-				else if (isdigit(argh[i][0]))
+				/*else if (isdigit(argh[i+1][0]))
 				{
 					cout << "Syntax error - the temperature of the system must be entered as a number. Note that the unit is Kelvins." << endl;
-				}
+					return 1;
+				}*/
 				else
 				{
 					settings.thermo_switch = 1;
 					settings.expected_temp = atof(argh[i+1]);
-					if (strcmp(argh[i+2],"monitor"))
+					if(strcmp(argh[i+2],"monitor") == 0)
 					{
 						settings.monitor_actual_temp = 1;
-						i+3;
+						i+=3;
 					}
 					else 
 					{
-						i+2;
+						i+=2;
 					}
 				}
 				continue;
