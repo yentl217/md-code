@@ -159,7 +159,7 @@ bool command_line_argh(const int num_args, char **argh)
 			//Check for thermostat settings
 			else if((strcmp(argh[i],"-t") ==0) || (strcmp(argh[i],"--temperature")==0))
 			{
-				if((i+1) > num_args)
+				if((i+2) > num_args)
 				{
 					cout <<"Syntax error - to specify a temperature for the system, use format: -t <temperature>. Note that this is in Kelvins." << endl;
 					return 1;
