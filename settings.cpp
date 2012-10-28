@@ -173,14 +173,12 @@ bool command_line_argh(const int num_args, char **argh)
 				{
 					settings.thermo_switch = 1;
 					settings.expected_temp = atof(argh[i+1]);
-					if(strcmp(argh[i+2],"monitor") == 0)
+					i++;
+					if(i+2 > num_args) continue;
+					else if (strcmp(argh[i+1],"monitor") == 0)
 					{
 						settings.monitor_actual_temp = 1;
-						i+=3;
-					}
-					else 
-					{
-						i+=2;
+						i++;
 					}
 				}
 				continue;
