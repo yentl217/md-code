@@ -164,11 +164,11 @@ bool command_line_argh(const int num_args, char **argh)
 					cout <<"Syntax error - to specify a temperature for the system, use format: -t <temperature>. Note that this is in Kelvins." << endl;
 					return 1;
 				}
-				/*else if (isdigit(argh[i+1][0]))
+				else if (isdigit(argh[i+1][0]) == 0)
 				{
 					cout << "Syntax error - the temperature of the system must be entered as a number. Note that the unit is Kelvins." << endl;
 					return 1;
-				}*/
+				}
 				else
 				{
 					settings.thermo_switch = 1;
