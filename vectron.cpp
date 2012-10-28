@@ -59,6 +59,13 @@ void vector::operator-=(vector op2)
 	x -= op2.x;
 	y -= op2.y;
 	z -= op2.z;
+}
+
+void vector::operator*=(double op2)
+{
+	x *= op2;
+	y *= op2;
+	z *= op2;
 }		
 
 vector operator*(vector op1, double op2)

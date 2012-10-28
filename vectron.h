@@ -32,6 +32,7 @@ class vector
 	vector operator-(vector op2);				//Vector subtraction
 	void operator+=(vector op2);				//Vector +=
 	void operator-=(vector op2); 				//Vector -=
+	void operator*=(double op2);				//Vector *=
 	friend vector operator*(vector op1, double op2);	//Multiplication by scalar
 	friend vector operator*(double op1, vector op2);	//Multiplication by scalar
 	vector operator/(double op2);				//Division by scalar
