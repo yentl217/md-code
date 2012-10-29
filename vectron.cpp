@@ -58,7 +58,26 @@ void vector::operator-=(vector op2)
 	x -= op2.x;
 	y -= op2.y;
 	z -= op2.z;
-}		
+}
+
+void vector::operator*=(double op2)
+{
+	x *= op2;
+	y *= op2;
+	z *= op2;
+}
+
+void vector::operator/=(double op2)
+{
+	if(op2 == 0)
+	{
+		cout << endl << "Error: Oops, someone's trying to divide by zero :S." << endl;
+		exit(0);
+	}
+	x /= op2;
+	y /= op2;
+	z /= op2;
+}
 
 vector operator*(vector op1, double op2)
 {

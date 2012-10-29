@@ -6,7 +6,7 @@
 //Operations defined:
 // - Assignment and array-style assignment		( setvector(x,y,z), = , vector[i] )
 // - Vector addition and subtraction 			( +, -, +=, -= )
-// - Multiplication or division by scalar 		( *, / )
+// - Multiplication or division by scalar 		( *, /, *=, /= )
 // - Magnitude of a vector 				( magnitude() )
 // - Create unit vector 				( unit_vector() )
 // - Vector multiplication - dot and cross products	( dotproduct(a,b), crossproduct(a,b) )
@@ -32,6 +32,8 @@ class vector
 	vector operator-(vector op2);				//Vector subtraction
 	void operator+=(vector op2);				//Vector +=
 	void operator-=(vector op2); 				//Vector -=
+	void operator*=(double op2);				//Vector *=
+	void operator/=(double op2);				//Vector /=
 	friend vector operator*(vector op1, double op2);	//Multiplication by scalar
 	friend vector operator*(double op1, vector op2);	//Multiplication by scalar
 	vector operator/(double op2);				//Division by scalar
