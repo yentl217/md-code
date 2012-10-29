@@ -51,7 +51,7 @@ bool read_input(atom *&atoms, int &num_atoms);	//Assumes last entry
 //
 //TODO:		Make this more reliable and able to detect more cases.
 
-bool clear_file(const char *file_location);
+bool clear_file(const string file_location);
 
 //Name:		output_state
 //
@@ -70,7 +70,7 @@ bool output_state(atom *atoms, const int numatoms);	//Return status indicates er
 //
 //TODO:		See above :P.
 
-bool file_exists(const char *file_location);
+bool file_exists(const string file_location);
 
 //Name:		reader
 //

@@ -1,5 +1,5 @@
 #include <iostream>
-#include <cstdlib>
+#include <string>
 
 #include "file_io.h"
 #include "settings.h"
@@ -15,7 +15,7 @@ extern prog_control settings;
 //Accessor function definitions
 //Files
 
-char *prog_control::get_input_file_location() { return input_file_location; }
+string prog_control::get_input_file_location() { return input_file_location; }
 
 bool prog_control::input_file_exists()
 {
@@ -25,7 +25,7 @@ bool prog_control::input_file_exists()
 
 bool prog_control::is_print_initial_atom_data() { return print_initial_atom_data; }
 
-char *prog_control::get_output_file_location() { return output_file_location; }
+string prog_control::get_output_file_location() { return output_file_location; }
 
 bool prog_control::output_file_exists()
 {
@@ -99,7 +99,7 @@ void prog_control::output()
 	else
 	{
 		cout << "Integration method:\t\t" << "Not recognised" << endl;
-		exit;
+		exit(0);
 	}
 	cout << " - Stepsize:\t\t\t" << stepsize << " ps" << endl;
 	cout << " - Number of steps:\t\t" << num_steps << endl;
@@ -126,10 +126,10 @@ void prog_control::output()
 	cout << endl;
 }
 
-bool command_line_argh(const int num_args, char **argh)
+bool command_line_argh(const int num_args, string *argh)
 {
 	//Usage text:
-	char usage_text[] = "Usage: mmm [-d|--damped-md] [--dummy] [-e|--epsilon <epsilon> [<unit>]]\n\t   [-h|--help [<command>]] [-i|--input-file <input file>]\n\t   [-n|--num-steps <number of steps>] [-o|--output-file <output file>]\n\t   [-p|--periodic-boundaries] [--print-initial-atom-data]\n\t   [-s|--integration-method] [--sigma <sigma> [<units>]]\n\t   [-z|--stepsize <stepsize> [<units>]] [--steps-per-output]\n\t    [-t|--temperature <desired temperature> [<monitor>]]";
+	const string usage_text = "Usage: mmm [-d|--damped-md] [--dummy] [-e|--epsilon <epsilon> [<unit>]]\n\t   [-h|--help [<command>]] [-i|--input-file <input file>]\n\t   [-n|--num-steps <number of steps>] [-o|--output-file <output file>]\n\t   [-p|--periodic-boundaries] [--print-initial-atom-data]\n\t   [-s|--integration-method] [--sigma <sigma> [<units>]]\n\t   [-z|--stepsize <stepsize> [<units>]] [--steps-per-output]\n\t    [-t|--temperature <desired temperature> [<monitor>]]";
 	
 	if(num_args < 2)
 	{
@@ -144,24 +144,24 @@ bool command_line_argh(const int num_args, char **argh)
 		else
 		{
 			//Check for damped MD
-			if((strcmp(argh[i],"-d") == 0) || (strcmp(argh[i],"--damped-md") == 0))
+			if((argh[i] == "-d") || (argh[i] == "--damped-md"))
 			{
 				settings.damped_md = 1;
 				continue;
 			}
 			//Check for dummy option (print settings and terminate)
-			if(strcmp(argh[i],"--dummy") == 0)
+			if(argh[i] == "--dummy")
 			{
 				settings.dummy_run = 1;
 				continue;
 			}
 
 			//Check for thermostat settings
-			else if((strcmp(argh[i],"-t") ==0) || (strcmp(argh[i],"--temperature")==0))
+			else if((argh[i] == "-t") || (argh[i] == "--temperature"))
 			{
 				if((i+2) > num_args)
 				{
-					cout <<"Syntax error - to specify a temperature for the system, use format: -t <temperature>. Note that this is in Kelvins." << endl;
+					cout << "Syntax error - to specify a temperature for the system, use format: -t <temperature>. Note that this is in Kelvins." << endl;
 					return 1;
 				}
 				/*else if (isdigit(argh[i+1][0]))
@@ -172,8 +172,8 @@ bool command_line_argh(const int num_args, char **argh)
 				else
 				{
 					settings.thermo_switch = 1;
-					settings.expected_temp = atof(argh[i+1]);
-					if(strcmp(argh[i+2],"monitor") == 0)
+					settings.expected_temp = atof(argh[i+1].c_str());
+					if(argh[i+2] == "monitor")
 					{
 						settings.monitor_actual_temp = 1;
 						i+=3;
@@ -187,7 +187,7 @@ bool command_line_argh(const int num_args, char **argh)
 			}
 					
 			//Check for epsilon value
-			else if((strcmp(argh[i],"-e") == 0) || (strcmp(argh[i],"--epsilon") == 0))
+			else if((argh[i] == "-e") || (argh[i] == "--epsilon"))
 			{
 				if((i+2) > num_args)
 				{ 
@@ -196,58 +196,58 @@ bool command_line_argh(const int num_args, char **argh)
 				}
 				else
 				{
-					settings.epsilon = atof(argh[i+1]);
+					settings.epsilon = atof(argh[i+1].c_str());
 					if(((i+3) <= num_args) && (argh[i+2][0] != '-'))
 					{
-						if((strcmp(argh[i+2],"MeV") == 0) || (strcmp(argh[i+2],"Mev") == 0))
+						if((argh[i+2] == "MeV") || (argh[i+2] == "Mev"))
 						{
 							settings.epsilon *= 9648533360;
 						}
-						else if((strcmp(argh[i+2],"keV") == 0) || (strcmp(argh[i+2],"kev") == 0))
+						else if((argh[i+2] == "keV") || (argh[i+2] == "kev"))
 						{
 							settings.epsilon *= 9648533.36;
 						}
-						else if((strcmp(argh[i+2],"eV") == 0) || (strcmp(argh[i+2],"ev") == 0))
+						else if((argh[i+2] == "eV") || (argh[i+2] == "ev"))
 						{
 							settings.epsilon *= 9648.53336;
 						}
-						else if((strcmp(argh[i+2],"meV") == 0) || (strcmp(argh[i+2],"mev") == 0))
+						else if((argh[i+2] == "meV") || (argh[i+2] == "mev"))
 						{
 							settings.epsilon *= 9.64853336;
 						}
-						else if((strcmp(argh[i+2],"J") == 0) || (strcmp(argh[i+2],"j") == 0) || (strcmp(argh[i+2],"Joules") == 0) || (strcmp(argh[i+2],"joules") == 0))
+						else if((argh[i+2] == "J") || (argh[i+2] == "j") || (argh[i+2] == "Joules") || (argh[i+2] == "joules"))
 						{
 							settings.epsilon *= 60221415000000000000000.0;
 						}
-						else if((strcmp(argh[i+2],"mJ") == 0) || (strcmp(argh[i+2],"mj") == 0) || (strcmp(argh[i+2],"milliJoules") == 0) || (strcmp(argh[i+2],"millijoules") == 0))
+						else if((argh[i+2] == "mJ") || (argh[i+2] == "mj") || (argh[i+2] == "milliJoules") || (argh[i+2] == "millijoules"))
 						{
 							settings.epsilon *= 60221415000000000000.0;
 						}
-						else if((strcmp(argh[i+2],"uJ") == 0) || (strcmp(argh[i+2],"uj") == 0) || (strcmp(argh[i+2],"microJoules") == 0) || (strcmp(argh[i+2],"microjoules") == 0))
+						else if((argh[i+2] == "uJ") || (argh[i+2] == "uj") || (argh[i+2] == "microJoules") || (argh[i+2] == "microjoules"))
 						{
 							settings.epsilon *= 60221415000000000.0;
 						}
-						else if((strcmp(argh[i+2],"nJ") == 0) || (strcmp(argh[i+2],"nj") == 0) || (strcmp(argh[i+2],"nanoJoules") == 0) || (strcmp(argh[i+2],"nanojoules") == 0))
+						else if((argh[i+2] == "nJ") || (argh[i+2] == "nj") || (argh[i+2] == "nanoJoules") || (argh[i+2] == "nanojoules"))
 						{
 							settings.epsilon *= 60221415000000.0;
 						}
-						else if((strcmp(argh[i+2],"pJ") == 0) || (strcmp(argh[i+2],"pj") == 0) || (strcmp(argh[i+2],"picoJoules") == 0) || (strcmp(argh[i+2],"picojoules") == 0))
+						else if((argh[i+2] == "pJ") || (argh[i+2] == "pj") || (argh[i+2] == "picoJoules") || (argh[i+2] == "picojoules"))
 						{
 							settings.epsilon *= 60221415000.0;
 						}
-						else if((strcmp(argh[i+2],"fJ") == 0) || (strcmp(argh[i+2],"fj") == 0) || (strcmp(argh[i+2],"femtoJoules") == 0) || (strcmp(argh[i+2],"femtojoules") == 0))
+						else if((argh[i+2] == "fJ") || (argh[i+2] == "fj") || (argh[i+2] == "femtoJoules") || (argh[i+2] == "femtojoules"))
 						{
 							settings.epsilon *= 60221415;
 						}
-						else if((strcmp(argh[i+2],"aJ") == 0) || (strcmp(argh[i+2],"aj") == 0) || (strcmp(argh[i+2],"attoJoules") == 0) || (strcmp(argh[i+2],"attojoules") == 0))
+						else if((argh[i+2] == "aJ") || (argh[i+2] == "aj") || (argh[i+2] == "attoJoules") || (argh[i+2] == "attojoules"))
 						{
 							settings.epsilon *= 60221.415;
 						}
-						else if((strcmp(argh[i+2],"zJ") == 0) || (strcmp(argh[i+2],"zj") == 0) || (strcmp(argh[i+2],"zeptoJoules") == 0) || (strcmp(argh[i+2],"zeptojoules") == 0))
+						else if((argh[i+2] == "zJ") || (argh[i+2] == "zj") || (argh[i+2] == "zeptoJoules") || (argh[i+2] == "zeptojoules"))
 						{
 							settings.epsilon *= 60.221415;
 						}
-						else if((strcmp(argh[i+2],"yJ") == 0) || (strcmp(argh[i+2],"yj") == 0) || (strcmp(argh[i+2],"yoctoJoules") == 0) || (strcmp(argh[i+2],"yoctojoules") == 0))
+						else if((argh[i+2] == "yJ") || (argh[i+2] == "yj") || (argh[i+2] == "yoctoJoules") || (argh[i+2] == "yoctojoules"))
 						{
 							settings.epsilon *= 0.060221415;
 						}
@@ -259,7 +259,7 @@ bool command_line_argh(const int num_args, char **argh)
 				continue;
 			}
 			//Check for help request
-			else if((strcmp(argh[i],"-h") == 0) || (strcmp(argh[i],"--help") == 0))
+			else if((argh[i] == "-h") || (argh[i] == "--help"))
 			{
 				//Explain commands in more detail
 				cout << usage_text << endl << endl;
@@ -267,7 +267,7 @@ bool command_line_argh(const int num_args, char **argh)
 				return 1;
 			}
 			//Check for input file location
-			else if((strcmp(argh[i],"-i") == 0) || (strcmp(argh[i],"--input-file") == 0))
+			else if((argh[i] == "-i") || (argh[i] == "--input-file"))
 			{
 				if((i+2) > num_args)
 				{ 
@@ -295,7 +295,7 @@ bool command_line_argh(const int num_args, char **argh)
 				continue;
 			}
 			//Check for number of steps
-			else if((strcmp(argh[i],"-n") == 0) || (strcmp(argh[i],"--num-steps") == 0))
+			else if((argh[i] == "-n") || (argh[i] == "--num-steps"))
 			{
 				if((i+2) > num_args)
 				{
@@ -311,8 +311,8 @@ bool command_line_argh(const int num_args, char **argh)
 					}
 					else
 					{
-						if(atoi(argh[i+1]) < 1) { cout << "I'm sorry, Dave. I'm afraid I can't do that." << endl; return 1; }
-						settings.num_steps = atoi(argh[i+1]);
+						if(atoi(argh[i+1].c_str()) < 1) { cout << "I'm sorry, Dave. I'm afraid I can't do that." << endl; return 1; }
+						settings.num_steps = atoi(argh[i+1].c_str());
 						if(settings.num_steps < 3) cout << "Use a calculator, lazy!" << endl;
 					
 					}
@@ -321,7 +321,7 @@ bool command_line_argh(const int num_args, char **argh)
 				continue;
 			}
 			//Check for output file location
-			else if((strcmp(argh[i],"-o") == 0) || (strcmp(argh[i],"--output-file") == 0))
+			else if((argh[i] == "-o") || (argh[i] == "--output-file"))
 			{
 				if((i+2) > num_args)
 				{ 
@@ -349,19 +349,19 @@ bool command_line_argh(const int num_args, char **argh)
 				continue;
 			}			
 			//Check for periodic boundaries
-			else if((strcmp(argh[i],"-p") == 0) || (strcmp(argh[i],"--periodic-boundaries") == 0))
+			else if((argh[i] == "-p") || (argh[i] == "--periodic-boundaries"))
 			{
 				settings.pbc = 1;
 				continue;
 			}
 			//check whether to output atom input information
-			else if(strcmp(argh[i],"--print-initial-atom-data") == 0)
+			else if(argh[i] == "--print-initial-atom-data")
 			{
 				settings.print_initial_atom_data = 1;
 				continue;
 			}
 			//check for integration method
-			else if((strcmp(argh[i],"-s") == 0) || (strcmp(argh[i],"--integration-method") == 0))
+			else if((argh[i] == "-s") || (argh[i] == "--integration-method"))
 			{
 				if((i+2) > num_args)
 				{ 
@@ -370,20 +370,19 @@ bool command_line_argh(const int num_args, char **argh)
 				}
 				else
 				{
-					char *temp_string = new char [strlen(argh[i+1])+1];
-					strcpy(temp_string,argh[i+1]);
-					for(int i=0; i < strlen(temp_string); i++) temp_string[i] = tolower(temp_string[i]);
+					string temp_string = argh[i+1];
+					for(int j=1; j < temp_string.length(); j++) temp_string[j] = tolower(temp_string[j]);
 					cout << temp_string << endl;
-					
-					if(strcmp(temp_string,"euler") == 0)
+
+					if(temp_string == "-euler")
 					{
 						settings.integration_method = prog_control::euler;
 					}
-					else if(strcmp(temp_string,"velocity-verlet") == 0)
+					else if(temp_string == "-velocity-verlet")
 					{
 						settings.integration_method = prog_control::velocity_verlet;
 					}
-					else if((strcmp(temp_string,"runge-kutta-4") == 0) || (strcmp(temp_string,"rk4") == 0) || (strcmp(temp_string,"rk-4") == 0) || (strcmp(temp_string,"r-k-4") == 0))
+					else if((temp_string == "-runge-kutta-4") || (temp_string == "-rk4") || (temp_string == "-rk-4") || (temp_string == "-r-k-4"))
 					{
 						settings.integration_method = prog_control::runge_kutta_4;
 					}
@@ -392,14 +391,12 @@ bool command_line_argh(const int num_args, char **argh)
 						cout << "Syntax error - No valid integration method specified. Available integration\nmethods are velocity verlet (type 'verlet'), Runge-Kutta 4 (type 'rk4') and\nEuler integration (type 'euler').\nDo not use Euler unless risk of death is involved." << endl;
 						return 1;
 					}
-					
-					delete [] temp_string;
 				}
 				i++;
 				continue;
 			}
 			//Check for sigma
-			else if(strcmp(argh[i],"--sigma") == 0)
+			else if(argh[i] == "--sigma")
 			{
 				if((i+2) > num_args)
 				{ 
@@ -408,7 +405,7 @@ bool command_line_argh(const int num_args, char **argh)
 				}
 				else
 				{
-					settings.sigma = atof(argh[i+1]);
+					settings.sigma = atof(argh[i+1].c_str());
 					if(settings.sigma <= 0)
 					{
 						cout << "Error: sigma cannot be less than or equal to 0." << endl;
@@ -416,47 +413,47 @@ bool command_line_argh(const int num_args, char **argh)
 					}
 					if(((i+3) <= num_args) && (argh[i+2][0] != '-'))
 					{
-						if((strcmp(argh[i+2],"A") == 0) || (strcmp(argh[i+2],"Angstroms") == 0) || (strcmp(argh[i+2],"angstroms") == 0))
+						if((argh[i+2] == "A") || (argh[i+2] == "Angstroms") || (argh[i+2] == "angstroms"))
 						{
 							settings.sigma *= 1;
 						}
-						else if((strcmp(argh[i+2],"nm") == 0) || (strcmp(argh[i+2],"nanometers") == 0))
+						else if((argh[i+2] == "nm") || (argh[i+2] == "nanometers"))
 						{
 							settings.sigma *= 10;
 						}
-						else if((strcmp(argh[i+2],"um") == 0) || (strcmp(argh[i+2],"micrometers") == 0))
+						else if((argh[i+2] == "um") || (argh[i+2] == "micrometers"))
 						{
 							settings.sigma *= 10000;
 						}
-						else if((strcmp(argh[i+2],"mm") == 0) || (strcmp(argh[i+2],"millimeters") == 0))
+						else if((argh[i+2] == "mm") || (argh[i+2] == "millimeters"))
 						{
 							settings.sigma *= 10000000;
 						}
-						else if((strcmp(argh[i+2],"cm") == 0) || (strcmp(argh[i+2],"centimeters") == 0))
+						else if((argh[i+2] == "cm") || (argh[i+2] == "centimeters"))
 						{
 							settings.sigma *= 100000000;
 						}
-						else if((strcmp(argh[i+2],"m") == 0) || (strcmp(argh[i+2],"meters") == 0))
+						else if((argh[i+2] == "m") || (argh[i+2] == "meters"))
 						{
 							settings.sigma *= 10000000000;
 						}
-						else if((strcmp(argh[i+2],"pm") == 0) || (strcmp(argh[i+2],"picometers") == 0))
+						else if((argh[i+2] == "pm") || (argh[i+2] == "picometers"))
 						{
 							settings.sigma *= 0.01;
 						}
-						else if((strcmp(argh[i+2],"fm") == 0) || (strcmp(argh[i+2],"femtometers") == 0))
+						else if((argh[i+2] == "fm") || (argh[i+2] == "femtometers"))
 						{
 							settings.sigma *= 0.00001;
 						}
-						else if((strcmp(argh[i+2],"am") == 0) || (strcmp(argh[i+2],"attometers") == 0))
+						else if((argh[i+2] == "am") || (argh[i+2] == "attometers"))
 						{
 							settings.sigma *= 0.00000001;
 						}
-						else if((strcmp(argh[i+2],"zm") == 0) || (strcmp(argh[i+2],"zeptometers") == 0))
+						else if((argh[i+2] == "zm") || (argh[i+2] == "zeptometers"))
 						{
 							settings.sigma *= 0.00000000001;
 						}
-						else if((strcmp(argh[i+2],"ym") == 0) || (strcmp(argh[i+2],"yoctometers") == 0))
+						else if((argh[i+2] == "ym") || (argh[i+2] == "yoctometers"))
 						{
 							settings.sigma *= 0.00000000000001;
 						}
@@ -467,7 +464,7 @@ bool command_line_argh(const int num_args, char **argh)
 				i++;
 			}
 			//Check for stepsize
-			else if((strcmp(argh[i],"-z") == 0) || (strcmp(argh[i],"--stepsize") == 0))
+			else if((argh[i] == "-z") || (argh[i] == "--stepsize"))
 			{
 				//Check parameter exists
 				if((i+2) > num_args)
@@ -486,45 +483,45 @@ bool command_line_argh(const int num_args, char **argh)
 					else
 					{
 						//Read stepsize
-						settings.stepsize = atof(argh[i+1]);
+						settings.stepsize = atof(argh[i+1].c_str());
 						//Check for input error
 						if(settings.stepsize == 0) { cout << "If you put nothing in, you get nothing out... (check the stepsize :P)" << endl; return 1; }
 						//Check for units!
 						if(((i+3) <= num_args) && (argh[i+2][0] != '-'))
 						{
-							if((strcmp(argh[i+2],"ps") == 0) || (strcmp(argh[i+2],"picoseconds") == 0))
+							if((argh[i+2] == "ps") || (argh[i+2] == "picoseconds"))
 							{
 								settings.stepsize *= 1;
 							}
-							else if((strcmp(argh[i+2],"ns") == 0) || (strcmp(argh[i+2],"nanoseconds") == 0))
+							else if((argh[i+2] == "ns") || (argh[i+2] == "nanoseconds"))
 							{
 								settings.stepsize *= 1000;
 							}
-							else if((strcmp(argh[i+2],"us") == 0) || (strcmp(argh[i+2],"microseconds") == 0))
+							else if((argh[i+2] == "us") || (argh[i+2] == "microseconds"))
 							{
 								settings.stepsize *= 1000000;
 							}
-							else if((strcmp(argh[i+2],"ms") == 0) || (strcmp(argh[i+2],"milliseconds") == 0))
+							else if((argh[i+2] == "ms") || (argh[i+2] == "milliseconds"))
 							{
 								settings.stepsize *= 1000000000;
 							}
-							else if((strcmp(argh[i+2],"s") == 0) || (strcmp(argh[i+2],"seconds") == 0))
+							else if((argh[i+2] == "s") || (argh[i+2] == "seconds"))
 							{
 								settings.stepsize *= 1000000000000;
 							}
-							else if((strcmp(argh[i+2],"fs") == 0) || (strcmp(argh[i+2],"femtoseconds") == 0))
+							else if((argh[i+2] == "fs") || (argh[i+2] == "femtoseconds"))
 							{
 								settings.stepsize *= 0.001;
 							}
-							else if((strcmp(argh[i+2],"as") == 0) || (strcmp(argh[i+2],"attoseconds") == 0))
+							else if((argh[i+2] == "as") || (argh[i+2] == "attoseconds"))
 							{
 								settings.stepsize *= 0.000001;
 							}
-							else if((strcmp(argh[i+2],"zs") == 0) || (strcmp(argh[i+2],"zeptoseconds") == 0))
+							else if((argh[i+2] == "zs") || (argh[i+2] == "zeptoseconds"))
 							{
 								settings.stepsize *= 0.000000001;
 							}
-							else if((strcmp(argh[i+2],"ys") == 0) || (strcmp(argh[i+2],"yoctoseconds") == 0))
+							else if((argh[i+2] == "ys") || (argh[i+2] == "yoctoseconds"))
 							{
 								settings.stepsize *= 0.000000000001;
 							}
@@ -535,7 +532,7 @@ bool command_line_argh(const int num_args, char **argh)
 				}
 				i++;
 			}
-			else if(strcmp(argh[i],"--steps-per-output") == 0)
+			else if(argh[i] == "--steps-per-output")
 			{
 				if((i+2) > num_args)
 				{
@@ -551,8 +548,8 @@ bool command_line_argh(const int num_args, char **argh)
 					}
 					else
 					{
-						if(atoi(argh[i+1]) < 0) { cout << "Uhh, less than 0? That's impossible..." << endl; return 1; }
-						settings.steps_per_output = atoi(argh[i+1]);					
+						if(atoi(argh[i+1].c_str()) < 0) { cout << "Uhh, less than 0? That's impossible..." << endl; return 1; }
+						settings.steps_per_output = atoi(argh[i+1].c_str());					
 					}
 				}
 				i++;

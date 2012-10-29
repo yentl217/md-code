@@ -1,6 +1,6 @@
-#include <cstdlib>
 #include <iostream>
 #include <iomanip>
+#include <string>
 
 #include "acceleration.h"
 #include "analysis.h"
@@ -27,11 +27,14 @@ double current_energy;
 
 int main(int argc, char **argv)
 {
+	string *argv_string = new string [argc];
+	for(int i=0; i < argc; i++) argv_string[i] = argv[i];
+
 	int num_atoms;
 	atom *atoms;
 
 	//Deal with command line arguments:
-	if(command_line_argh(argc, argv) == 1) return 1;
+	if(command_line_argh(argc, argv_string) == 1) return 1;
 	
 	//Output recorded settings for debugging:
 	settings.output();
@@ -124,6 +127,10 @@ int main(int argc, char **argv)
 	
 	//Clean up atom array
 	delete [] atoms;
+
+	//Clean up argument string array
+	delete [] argv_string;
+
 	return 0;
 }
 

@@ -1,6 +1,5 @@
 #include <fstream>
 #include <iostream>
-#include <cstdlib>
 #include <string>
 
 #include "analysis.h"
@@ -24,10 +23,10 @@ bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end)
 {
 	ifstream input_stream;
 	string str;
-	char *file_location = settings.get_input_file_location();
+	string file_location = settings.get_input_file_location();
 	
 	//Check input file correctly opened
-	input_stream.open(file_location, ios::in | ios::binary);
+	input_stream.open(file_location.c_str(), ios::in | ios::binary);
 	if(input_stream.is_open() == false)
 	{
 		cout << "Error: input file \"" << file_location << "\" could not be opened" << endl;
@@ -105,7 +104,7 @@ bool read_input(atom *&atoms, int &num_atoms)
 }
 
 	//Output:
-bool clear_file(const char *file_location)
+bool clear_file(const string file_location)
 {
 	//Clears file by opening it in the default way since the default way is to truncate it.
 	ofstream killfile(file_location);
@@ -123,10 +122,10 @@ bool clear_file(const char *file_location)
 
 bool output_state(atom *atoms, const int numatoms)
 {
-	char *output_file_location = settings.get_output_file_location();
+	string output_file_location = settings.get_output_file_location();
 	//Open file etc.
 	ofstream mystream;
-	mystream.open(output_file_location, ios::app | ios::ate);
+	mystream.open(output_file_location.c_str(), ios::app | ios::ate);
 	
 	if(mystream.is_open() == false)
 	{
@@ -148,7 +147,7 @@ bool output_state(atom *atoms, const int numatoms)
 }
 
 	//Misc:
-bool file_exists(const char *file_location)
+bool file_exists(const string file_location)
 {
 	//Pretty self-explanatory :P.
 	ifstream mystream(file_location);

@@ -1,8 +1,10 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <cstring>
+#include <string>
 #include "vectron.h"
+
+using namespace std;
 
 //This file contains the settings class used to control program execution, along with a function that processes command line arguments.
 
@@ -13,12 +15,12 @@
 class prog_control
 {
 	//Files
-	char default_input_file[8];		//Location of default input file
-	char *input_file_location;		//Location of input file to use
+	string default_input_file;		//Location of default input file
+	string input_file_location;		//Location of input file to use
 	bool input_file_exist;			//Input file verified to exist
 	bool print_initial_atom_data;		//Print the initial atom data?
-	char default_output_file[9];		//As above
-	char *output_file_location;		//...
+	string default_output_file;		//As above
+	string output_file_location;		//...
 	bool output_file_exist;			//...
 	int steps_per_output;			//Number of steps per output to output file
 	
@@ -61,11 +63,11 @@ class prog_control
 	prog_control()
 	{
 		//Files
-		strcpy(default_input_file,"./input");
+		default_input_file = "./input";
 		input_file_location = default_input_file;
 		input_file_exist = 0;
 		print_initial_atom_data = 0;
-		strcpy(default_output_file,"./output");
+		default_output_file = "./output";
 		output_file_location = default_output_file;
 		output_file_exist = 0;
 		steps_per_output = 1;
@@ -97,13 +99,13 @@ class prog_control
 	
 	//Accessor function prototypes
 	//Files
-	char *get_input_file_location();
+	string get_input_file_location();
 	bool input_file_exists();
 	bool is_print_initial_atom_data();
-	char *get_output_file_location();
+	string get_output_file_location();
 	bool output_file_exists();
 	int get_steps_per_output();
-	
+
 	//Type of run
 	bool is_damped_md();
 	bool is_dummy_run();
@@ -135,7 +137,7 @@ class prog_control
 	void output();
 	
 	//Command line argument function needs access to this class' private members
-	friend bool command_line_argh(const int num_args, char **argh);
+	friend bool command_line_argh(const int num_args, string *argh);
 };
 
 //***************************************************************************//
@@ -158,7 +160,7 @@ class prog_control
 //TODO:		Handle other inputs, deal with input errors more effectively,
 //		check types are correct TESTING.
 
-bool command_line_argh(const int num_args, char **argh);	//TODO: How do we make argh const?
+bool command_line_argh(const int num_args, string *argh);	//TODO: How do we make argh const?
 
 #endif
 
