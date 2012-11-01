@@ -172,7 +172,7 @@ bool command_line_argh(const int num_args, string *argh)
 				else
 				{
 					settings.thermo_switch = 1;
-					settings.expected_temp = atof(argh[i+1].c_str());
+					settings.expected_temp = stod(argh[i+1]);
 					i++;
 					if(i+2 > num_args) continue;
 					else if (argh[i+1] == "monitor")
@@ -194,7 +194,7 @@ bool command_line_argh(const int num_args, string *argh)
 				}
 				else
 				{
-					settings.epsilon = atof(argh[i+1].c_str());
+					settings.epsilon = stod(argh[i+1]);
 					if(((i+3) <= num_args) && (argh[i+2][0] != '-'))
 					{
 						if((argh[i+2] == "MeV") || (argh[i+2] == "Mev"))
@@ -309,8 +309,8 @@ bool command_line_argh(const int num_args, string *argh)
 					}
 					else
 					{
-						if(atoi(argh[i+1].c_str()) < 1) { cout << "I'm sorry, Dave. I'm afraid I can't do that." << endl; return 1; }
-						settings.num_steps = atoi(argh[i+1].c_str());
+						if(stoi(argh[i+1]) < 1) { cout << "I'm sorry, Dave. I'm afraid I can't do that." << endl; return 1; }
+						settings.num_steps = stoi(argh[i+1]);
 						if(settings.num_steps < 3) cout << "Use a calculator, lazy!" << endl;
 					
 					}
@@ -403,7 +403,7 @@ bool command_line_argh(const int num_args, string *argh)
 				}
 				else
 				{
-					settings.sigma = atof(argh[i+1].c_str());
+					settings.sigma = stod(argh[i+1]);
 					if(settings.sigma <= 0)
 					{
 						cout << "Error: sigma cannot be less than or equal to 0." << endl;
@@ -481,7 +481,7 @@ bool command_line_argh(const int num_args, string *argh)
 					else
 					{
 						//Read stepsize
-						settings.stepsize = atof(argh[i+1].c_str());
+						settings.stepsize = stod(argh[i+1]);
 						//Check for input error
 						if(settings.stepsize == 0) { cout << "If you put nothing in, you get nothing out... (check the stepsize :P)" << endl; return 1; }
 						//Check for units!
@@ -546,8 +546,8 @@ bool command_line_argh(const int num_args, string *argh)
 					}
 					else
 					{
-						if(atoi(argh[i+1].c_str()) < 0) { cout << "Uhh, less than 0? That's impossible..." << endl; return 1; }
-						settings.steps_per_output = atoi(argh[i+1].c_str());					
+						if(stoi(argh[i+1]) < 0) { cout << "Uhh, less than 0? That's impossible..." << endl; return 1; }
+						settings.steps_per_output = stoi(argh[i+1]);					
 					}
 				}
 				i++;
