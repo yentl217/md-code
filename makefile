@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -march=native -mfpmath=sse -O3
+CXXFLAGS = -march=native -std=c++0x -mfpmath=sse -O3
 
 BIN_DIR = ./bin
 OBJ_DIR = ./obj
