@@ -1,6 +1,5 @@
 #include <cmath>
 #include <iostream>
-#include <cstdlib>
 
 #include "vectron.h"
 

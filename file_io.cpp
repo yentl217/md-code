@@ -1,7 +1,6 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <cstdlib>
 
 #include "analysis.h"
 #include "atom.h"
@@ -162,10 +161,9 @@ void reader(istream &input_stream, char delim, int &integer)
 	
 	//Get a string from the input stream - stop at delimiter specified.
 	getline(input_stream,str,delim);
-	const char *c = str.c_str();
 	
 	//Convert string to integer
-	integer = atoi(c); //apparent loss of accuracy due to printing error with cout; you'll realise this doesn't exist if you use the outputted values to do 
+	integer = stoi(str); //apparent loss of accuracy due to printing error with cout; you'll realise this doesn't exist if you use the outputted values to do 
 	//some arithmetic
 }
 
@@ -175,8 +173,7 @@ void reader(istream &input_stream, char delim, double &decimal)
 	
 	//Floating point version of above function.
 	getline(input_stream,str,delim);
-	const char *c = str.c_str();
-	decimal = atof(c); //apparent loss of accuracy due to printing error with cout; you'll realise this doesn't exist if you use the outputted values to do 
+	decimal = stod(str); //apparent loss of accuracy due to printing error with cout; you'll realise this doesn't exist if you use the outputted values to do 
 	//some arithmetic
 }
 
