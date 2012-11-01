@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <cstdlib>
 
 #include "analysis.h"
 #include "atom.h"
@@ -107,7 +108,7 @@ bool read_input(atom *&atoms, int &num_atoms)
 bool clear_file(const string file_location)
 {
 	//Clears file by opening it in the default way since the default way is to truncate it.
-	ofstream killfile(file_location);
+	ofstream killfile(file_location.c_str());
 	if(killfile.is_open() == false)
 	{
 		cout << "Error: the file \"" << file_location << "\" could not be cleared." << endl;	//Does this work??
@@ -150,7 +151,7 @@ bool output_state(atom *atoms, const int numatoms)
 bool file_exists(const string file_location)
 {
 	//Pretty self-explanatory :P.
-	ifstream mystream(file_location);
+	ifstream mystream(file_location.c_str());
 	if(mystream.is_open() == false)	return 1;
 	else return 0;
 }

@@ -1,5 +1,6 @@
 #include <cmath>
 #include <iostream>
+#include <cstdlib>
 
 #include "potentials.h"
 #include "settings.h"
