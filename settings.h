@@ -37,6 +37,9 @@ class prog_control
 	bool pbc;				//Use periodic boundariy conditions?
 	double cellsize;			//Size of the cell used for periodic boundaries
 	vector cellcentre;			//Location of periodic boundary cell centre
+	
+	//ions
+	bool use_coulomb;
 
 	//Integration method
 	public:
@@ -86,6 +89,9 @@ class prog_control
 		cellsize = 100;
 		cellcentre.set_vector(0.0,0.0,0.0);
 		
+		//Ions
+		use_coulomb = 1;
+		
 		//Integration method
 		integration_method = velocity_verlet;
 		num_steps = 1000;
@@ -120,6 +126,9 @@ class prog_control
 	bool get_pbc();
 	double get_cellsize();
 	vector get_cellcentre();
+	
+	//Ion settings
+	bool get_use_coulomb();
 	
 	//Integration method
 	integration_methods get_integration_method();
