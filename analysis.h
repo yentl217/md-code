@@ -18,13 +18,9 @@
 //		easy to change potential... :S.
 
 double kinetic_energy(atom *atoms, const int num_atoms);
-double kinetic_energy(ion *ions, const int num_ions);
 double potential_energy(atom *atoms, const int num_atoms);
-double potential_energy(ion *ions, const int num_ions);
 double total_energy(atom *atoms, const int num_atoms);
-double total_energy(ion *ions, const int num_ions);
 void calculate_actual_temperature(atom *atoms, const int num_atoms);
-void calculate_actual_temperature(ion *ions, const int num_ions)
 
 #endif
 
