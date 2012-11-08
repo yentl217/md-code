@@ -78,3 +78,67 @@ void acceleration(atom *atoms, const int num_atoms)
 	}
 }
 
+void acceleration(ion *ions, const int num_ions)
+{
+	//set previous acceleration values to zero for fresh calculation
+	for (int i = 0; i < num_atoms; i++)
+	{
+		(ions[i].acceleration).set_vector();
+	}
+	
+	//operate exclusively on separation vector
+	for (int i = 0; i < num_atoms; i++)
+	{
+		for (int j = i+1; j < num_atoms; j++)
+		{
+			//Calculate separation of atoms
+			vector separation = ions[i].position - ions[j].position; 
+			double force_magnitude = 0.0;
+			vector force_direction;	
+			if (settings.get_pbc() == 1) 
+			{
+				//check if either copy of atom j within cellsize of atom i along an axis is within cutoff of atom i along that axis
+				//if not, move to next atom
+				//otherwise, check whether the chosen copy of atom j has separation within cutoff of atom i already
+				//if so, interact and move to next atom
+				//otherwise, check next axis or if all three axes checked, move to next atom
+				
+				for (int k = 0; k < 3; k++)
+				{
+					if (abs(separation[k]) > settings.get_cutoff())
+					{
+						if ((settings.get_cellsize() - abs(separation[k])) > settings.get_cutoff()) break;
+						separation[k] = abs(separation[k])-settings.get_cellsize();
+					}
+					
+					if (separation.magnitude() <= settings.get_cutoff()) 
+					{
+						//Calculate forces on atoms
+						double separation_magnitude = separation.magnitude();
+						lennard_jones_force(force_direction, force_magnitude, separation, separation_magnitude);
+						coulomb_force(force_direction,force_magnitude, separation, separation_magnitude);
+						
+						//Update acceleration of atoms
+						ions[i].acceleration += force_magnitude*force_direction/ions[i].atomic_mass;
+						ions[j].acceleration -= force_magnitude*force_direction/ions[j].atomic_mass;
+						break;
+					}
+				}
+			}
+			else
+			{	
+				double separation_magnitude = separation.magnitude();
+				if (separation_magnitude <= settings.get_cutoff()) 
+				{
+					//Calculate forces on atoms
+					lennard_jones_force(force_direction,force_magnitude,separation,separation_magnitude);
+					coulomb_force(force_direction,force_magnitude, separation, separation_magnitude);
+					//Calculate acceleration of atoms
+					atoms[i].acceleration += force_magnitude*force_direction/atoms[i].atomic_mass;
+					atoms[j].acceleration -= force_magnitude*force_direction/atoms[j].atomic_mass;
+				}
+			}
+		}
+	}
+}
+

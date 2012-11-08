@@ -2,12 +2,14 @@
 #define ACCELERATION_H
 
 #include "atom.h"
+#include "ion.h"
 
 //***************************************************************************//
 //			Function protoypes:				     //
 //***************************************************************************//
 
 void acceleration(atom *atoms, const int num_atoms);
+void acceleration(ion *ions, const int num_ions);
 
 #endif
 
