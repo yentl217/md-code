@@ -78,6 +78,8 @@ void acceleration(atom *atoms, const int num_atoms)
 	}
 }
 
+//acceleartion function for ions
+
 void acceleration(ion *ions, const int num_ions)
 {
 	//set previous acceleration values to zero for fresh calculation
@@ -116,8 +118,10 @@ void acceleration(ion *ions, const int num_ions)
 						//Calculate forces on atoms
 						double separation_magnitude = separation.magnitude();
 						lennard_jones_force(force_direction, force_magnitude, separation, separation_magnitude);
-						coulomb_force(force_direction,force_magnitude, separation, separation_magnitude);
-						
+						if (settings.get_use_coulomb() == 1)
+						{
+							coulomb_force(force_direction,force_magnitude, separation, separation_magnitude);
+						}
 						//Update acceleration of atoms
 						ions[i].acceleration += force_magnitude*force_direction/ions[i].atomic_mass;
 						ions[j].acceleration -= force_magnitude*force_direction/ions[j].atomic_mass;
@@ -132,10 +136,13 @@ void acceleration(ion *ions, const int num_ions)
 				{
 					//Calculate forces on atoms
 					lennard_jones_force(force_direction,force_magnitude,separation,separation_magnitude);
-					coulomb_force(force_direction,force_magnitude, separation, separation_magnitude);
+					if (settings.get_use_coulomb() == 1)
+					{
+						coulomb_force(force_direction,force_magnitude, separation, separation_magnitude);
+					}
 					//Calculate acceleration of atoms
-					atoms[i].acceleration += force_magnitude*force_direction/atoms[i].atomic_mass;
-					atoms[j].acceleration -= force_magnitude*force_direction/atoms[j].atomic_mass;
+					ions[i].acceleration += force_magnitude*force_direction/atoms[i].atomic_mass;
+					ions[j].acceleration -= force_magnitude*force_direction/atoms[j].atomic_mass;
 				}
 			}
 		}
