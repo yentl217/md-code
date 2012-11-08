@@ -83,10 +83,8 @@ void prog_control::output()
 	cout << " - Periodic boundaries:\t\t";
 	if(pbc == 1)
 	{
-		cout << "Yes" << endl;
 		cout << " -  - Period of boundary:\t" << cellsize << " Angstroms" << endl;
 	}
-	else cout << "No" << endl;
 	//}
 	cout << "Potential:\t\t\t" << "Lennard-Jones" << endl;
 	cout << " - Epsilon:\t\t\t" << epsilon * 0.000103642695 << " eV" << endl;
