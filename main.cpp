@@ -31,6 +31,7 @@ int main(int argc, char **argv)
 	for(int i=0; i < argc; i++) argv_string[i] = argv[i];
 
 	int num_atoms;
+	int num_ions;
 	atom *atoms;
 
 	//Deal with command line arguments:
@@ -47,7 +48,14 @@ int main(int argc, char **argv)
 	cout << "Reading atoms in from file..." << endl;
 	//Read input file from location specified in arguments.
 	if(read_input(atoms, num_atoms, 1) == 1) return 1;
-	cout << "Found " << num_atoms << " atoms in input file.\n" << endl;
+	cout << "Found " << num_atoms << " particles in input file.\n" << endl;
+	if (num_ions > 0 ) { set_ion_present();}
+	if(settings.get_ions_present() == 1)
+	{
+		cout << num_ions << " ions present!" << endl;
+		if(settings.get_use_coulomb == 1) { cout << "Coulomb potential automatically applied." << endl};
+		else {cout << "Coulomb potential switched off." << endl;}
+	}
 
 	//Clear the output file. TODO: Check if output file exists, if not then create one.
 	if(clear_file(settings.get_output_file_location()) == 1) return 1;

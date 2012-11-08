@@ -33,6 +33,10 @@ class prog_control
 	double expected_temp;		//expected temperature
 	bool monitor_actual_temp;	//display actual temperature?
 	
+	//Ions
+	bool ions_present;		//Are there ions?
+	bool use_coulomb;		//Are we applying the Coulomb potential?
+	
 	//Periodic boundary conditions settings
 	bool pbc;				//Use periodic boundariy conditions?
 	double cellsize;			//Size of the cell used for periodic boundaries
@@ -81,6 +85,10 @@ class prog_control
 		expected_temp = 298; //Kelvins
 		monitor_actual_temp = 0;
 		
+		//Ions
+		ions_present = 0;
+		use_coulomb = 1;
+		
 		//Periodic boundary conditions settings
 		pbc = 0;
 		cellsize = 100;
@@ -105,6 +113,7 @@ class prog_control
 	string get_output_file_location();
 	bool output_file_exists();
 	int get_steps_per_output();
+	bool get_ions_present();
 
 	//Type of run
 	bool is_damped_md();
@@ -115,6 +124,10 @@ class prog_control
 	double get_expected_temp();
 	bool start_monitor_actual_temp();
 	double actual_temp;
+	
+	//Ions
+	bool get_ions_present();
+	bool get_use_coulomb();
 	
 	//Periodic boundary conditions settings
 	bool get_pbc();
@@ -138,6 +151,7 @@ class prog_control
 	
 	//Command line argument function needs access to this class' private members
 	friend bool command_line_argh(const int num_args, string *argh);
+	friend void set_ions_present();
 };
 
 //***************************************************************************//

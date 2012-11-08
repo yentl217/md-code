@@ -56,6 +56,10 @@ double potential_energy(atom *atoms, const int num_atoms)
 					{
 						//Calculate potential between atoms
 						potential_energy += lennard_jones_potential(separation.magnitude());
+						if (settings.get_use_coulomb() == 1)
+						{
+							potential_energy += coulomb_potential(separation.magnitude(),atoms[i].charge,atoms[j].charge);
+						}
 						break;
 					}
 				}
@@ -67,6 +71,10 @@ double potential_energy(atom *atoms, const int num_atoms)
 				{
 					//Calculate potential between atoms
 					potential_energy += lennard_jones_potential(separation_magnitude);
+					if (settings.get_use_coulomb() == 1)
+					{
+						potential_energy += coulomb_potential(separation.magnitude(),atoms[i].charge,atoms[j].charge);
+					}
 				}
 			}
 		}

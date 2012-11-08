@@ -20,10 +20,11 @@ using namespace std;
 //***************************************************************************//
 
 	//Input:
-bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end)
+bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end, int &num_ions)
 {
 	ifstream input_stream;
 	string str;
+	num_ions = 0;
 	string file_location = settings.get_input_file_location();
 	
 	//Check input file correctly opened
@@ -36,9 +37,6 @@ bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end)
 
 	//Read number of atoms:
 	reader(input_stream,'\n',num_atoms);
-
-	//This is done in main now:
-	//cout << "No. of atoms found: " << num_atoms << "\n\n";
 
 	//Skip title line
 	char ch = 'h'; //better initialisation
@@ -82,15 +80,31 @@ bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end)
 		reader(input_stream,' ',(atoms[i].velocity).x);
 		reader(input_stream,' ',(atoms[i].velocity).y);
 		reader(input_stream,' ',(atoms[i].velocity).z);
-		reader(input_stream,'\n',atoms[i].atomic_mass);
+		input_stream.get(ch);
+		string str2 = string(ch);
+		while((ch != '\n' || ch != ' '))
+		{
+			input_stream.get(ch);
+			str2 += string(ch);
+		}
+		if (ch == '\n')
+		{
+			atoms[i].mass = stof(str2);
+		}
+		else
+		{
+			atoms[i].charge = stoi(str2);
+			reader(input_stream,'\n',atoms[i].atomic_mass);
+			num_ions += 1;
+		}
 		atoms[i].atom_id = i;
-		
 		//Output them to screen for verification if command line option enabled
 		if(settings.is_print_initial_atom_data() == 1)
 		{
 			cout << "Atom " << i << ":" << endl;
 			cout << "Position: (" << (atoms[i].position).x << "," << (atoms[i].position).y << "," << (atoms[i].position).z << ")" << endl;
 			cout << "Velocity: (" << (atoms[i].velocity).x << "," << (atoms[i].velocity).y << "," << (atoms[i].velocity).z << ")" << endl;
+			cout << "Charge:" << atoms[i].charge << endl;
 			cout << "Mass: " << atoms[i].atomic_mass << endl;
 			cout << "ID: " << atoms[i].atom_id << "\n\n";
 		}
@@ -98,7 +112,7 @@ bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end)
 	return 0;
 }
 	
-bool read_input(atom *&atoms, int &num_atoms)
+bool read_input(atom *&atoms, int &num_atoms, int &num_ions)
 {
 	read_input(atoms, num_atoms, 1);
 	return 0;
@@ -141,7 +155,7 @@ bool output_state(atom *atoms, const int numatoms)
 	//Output information about each atom
 	for(int i=0; i < numatoms; i++)
 	{
-		mystream << "atom" << i << " " << (atoms[i].position).x << " " << (atoms[i].position).y << " " << (atoms[i].position).z << " " << (atoms[i].velocity).x << " " << (atoms[i].velocity).y << " " << (atoms[i].velocity).z << " " << atoms[i].atomic_mass << endl;
+		mystream << "atom" << i << " " << (atoms[i].position).x << " " << (atoms[i].position).y << " " << (atoms[i].position).z << " " << (atoms[i].velocity).x << " " << (atoms[i].velocity).y << " " << (atoms[i].velocity).z << " " << atoms[i].charge <<" "<< atoms[i].atomic_mass << endl;
 	}
 	
 	return 0;
@@ -159,13 +173,10 @@ bool file_exists(const string file_location)
 void reader(istream &input_stream, char delim, int &integer)
 {
 	string str;
-	
 	//Get a string from the input stream - stop at delimiter specified.
 	getline(input_stream,str,delim);
-	const char *c = str.c_str();
-	
-	//Convert string to integer
-	integer = atoi(c); //apparent loss of accuracy due to printing error with cout; you'll realise this doesn't exist if you use the outputted values to do 
+	stoi(str);
+	//apparent loss of accuracy due to printing error with cout; you'll realise this doesn't exist if you use the outputted values to do 
 	//some arithmetic
 }
 
@@ -175,8 +186,7 @@ void reader(istream &input_stream, char delim, double &decimal)
 	
 	//Floating point version of above function.
 	getline(input_stream,str,delim);
-	const char *c = str.c_str();
-	decimal = atof(c); //apparent loss of accuracy due to printing error with cout; you'll realise this doesn't exist if you use the outputted values to do 
+	decimal = stof(str); //apparent loss of accuracy due to printing error with cout; you'll realise this doesn't exist if you use the outputted values to do 
 	//some arithmetic
 }
 

@@ -47,6 +47,11 @@ bool prog_control::thermo_status() {return thermo_switch; }
 double prog_control::get_expected_temp() {return expected_temp; }
 bool prog_control::start_monitor_actual_temp() {return monitor_actual_temp; }
 
+//Ions
+bool prog_control::get_ions_present() {return ions_present};
+bool prog_control::get_use_coulomb() {return use_coulomb };
+void prog_conrol::set_ions_present() {ions_present == 1};
+
 
 //Periodic boundary conditions settings
 
@@ -182,6 +187,13 @@ bool command_line_argh(const int num_args, string *argh)
 						i++;
 					}
 				}
+				continue;
+			}
+			
+			//Check whether the Coulomb potential is switched off
+			else if(argh[i] == "--no-coulomb")
+			{
+				settings.use_coulomb = 0;
 				continue;
 			}
 					

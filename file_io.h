@@ -41,8 +41,8 @@ END OF FILE!
 //		remove dependance on 'reader' function :P. Get the format
 //		working with vmd.
 
-bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end);
-bool read_input(atom *&atoms, int &num_atoms);	//Assumes last entry
+bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end, int &num_ions);
+bool read_input(atom *&atoms, int &num_atoms, int &num_ions);	//Assumes last entry
 
 	//Output:
 //Name:		clear_file

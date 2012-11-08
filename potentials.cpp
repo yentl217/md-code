@@ -46,3 +46,30 @@ double lennard_jones_potential(const double separation)
 	
 	return potential;
 }
+
+void coulomb_force(vector &force_direction, double &force_magnitude, vector separation, const double separation_magnitude, const int charge_a, const int charge_b)
+{
+	if(separation_magnitude == 0)
+	{
+		cout << "Error: ion separation is 0 (inside coulomb_force)" << endl;
+		exit(0);
+	}
+	force_direction = separation.unit_vector();
+	force_magnitude = 8.9875217873681764*pow(10,9)*charge_a*charge_b/(separation_magnitude*separation_magnitude);
+}
+
+void coulomb_potential(double &potential, const double separation, const int charge_a, const int charge_b)
+{
+	potential = coulomb_potential(separation,charge_a,charge_b);
+}
+
+double coulomb_potential(const double separation, const double separation, const int charge_a, const int charge_b)
+{
+	if(separation == 0)
+	{
+		cout << "Error: ion separation is 0 (inside Lennard_jones_potential) " << endl;
+		exit(0);
+	}
+	double potential = 8.9875217873681764*pow(10,9)*charge_a*charge_b/separation;
+	return potential;
+}
