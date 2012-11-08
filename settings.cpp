@@ -56,6 +56,10 @@ double prog_control::get_cellsize() { return cellsize; }
 
 vector prog_control::get_cellcentre() { return cellcentre; }
 
+//Ion settings
+
+bool prog_control::get_use_coulomb { return use_coulomb; }
+
 //Integration method
 
 prog_control::integration_methods prog_control::get_integration_method() { return integration_method;}
@@ -183,6 +187,13 @@ bool command_line_argh(const int num_args, string *argh)
 					}
 				}
 				continue;
+			}
+			
+			//Check if coulomb potential is being used in case of ions
+			else if(argh[i]=='-no_coulomb')
+			{
+				settings.use_coulomb = 0; //If ions are read in from input file, default is to use Coulomb potential unless specified otherwise
+				i++;
 			}
 					
 			//Check for epsilon value
