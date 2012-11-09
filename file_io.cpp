@@ -114,7 +114,7 @@ bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end, int &num
 	
 bool read_input(atom *&atoms, int &num_atoms, int &num_ions)
 {
-	read_input(atoms, num_atoms, 1);
+	read_input(atoms, num_atoms, 1, num_ions);
 	return 0;
 }
 

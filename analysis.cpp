@@ -93,4 +93,3 @@ void calculate_actual_temperature(atom *atoms, const int num_atoms)
 	double temperature = 2*kinetic_energy(atoms, num_atoms)/(num_atoms*3*0.000086173324);
 	settings.actual_temp = temperature;
 }	
-
