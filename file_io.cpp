@@ -189,4 +189,3 @@ void reader(istream &input_stream, char delim, double &decimal)
 	decimal = stof(str); //apparent loss of accuracy due to printing error with cout; you'll realise this doesn't exist if you use the outputted values to do 
 	//some arithmetic
 }
-

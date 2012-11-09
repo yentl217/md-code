@@ -52,7 +52,6 @@ bool prog_control::get_ions_present() {return ions_present};
 bool prog_control::get_use_coulomb() {return use_coulomb };
 void prog_conrol::set_ions_present() {ions_present == 1};
 
-
 //Periodic boundary conditions settings
 
 bool prog_control::get_pbc() { return pbc; }
@@ -586,4 +585,3 @@ bool command_line_argh(const int num_args, string *argh)
 	
 	return 0;
 }
-
