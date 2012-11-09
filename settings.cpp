@@ -195,8 +195,7 @@ bool command_line_argh(const int num_args, string *argh)
 			{
 				settings.use_coulomb = 0;
 				continue;
-			}
-					
+			}		
 			//Check for epsilon value
 			else if((argh[i] == "-e") || (argh[i] == "--epsilon"))
 			{

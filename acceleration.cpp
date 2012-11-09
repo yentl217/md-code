@@ -76,7 +76,6 @@ void acceleration(atom *atoms, const int num_atoms)
 					{
 						coulomb_force(force_direction, force_magnitude, separation, separation_magnitude, atoms[i].charge, atoms[j].charge);
 					}
-					
 					//Calculate acceleration of atoms
 					atoms[i].acceleration += force_magnitude*force_direction/atoms[i].atomic_mass;
 					atoms[j].acceleration -= force_magnitude*force_direction/atoms[j].atomic_mass;
