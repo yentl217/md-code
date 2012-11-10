@@ -2,7 +2,6 @@
 #define ACCELERATION_H
 
 #include "atom.h"
-#include "ion.h"
 
 //***************************************************************************//
 //			Function protoypes:				     //

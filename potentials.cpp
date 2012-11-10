@@ -62,7 +62,7 @@ void coulomb_potential(double &potential, const double separation, const int cha
 	potential = coulomb_potential(separation,charge_a,charge_b);
 }
 
-double coulomb_potential(const double separation, const double separation, const int charge_a, const int charge_b)
+double coulomb_potential(const double separation, const int charge_a, const int charge_b)
 {
 	if(separation == 0)
 	{

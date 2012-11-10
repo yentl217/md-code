@@ -18,7 +18,7 @@ class atom
 	//Neutral atom
 	atom(int a, double b, double pa, double pb, double pc, double va, double vb, double vc);
 	//Ion (misnomer)
-	atom(int a, double b, double pa, double pb, double pc, double va, double vb, double vc, double c);
+	atom(int a, double b, double pa, double pb, double pc, double va, double vb, double vc, int c);
 	//Null constructor
 	atom(); 
 };

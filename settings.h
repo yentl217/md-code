@@ -42,9 +42,6 @@ class prog_control
 	double cellsize;			//Size of the cell used for periodic boundaries
 	vector cellcentre;			//Location of periodic boundary cell centre
 	
-	//ions
-	bool use_coulomb;
-
 	//Integration method
 	public:
 	enum integration_methods
@@ -119,7 +116,6 @@ class prog_control
 	string get_output_file_location();
 	bool output_file_exists();
 	int get_steps_per_output();
-	bool get_ions_present();
 
 	//Type of run
 	bool is_damped_md();
@@ -158,6 +154,7 @@ class prog_control
 	//Command line argument function needs access to this class' private members
 	friend bool command_line_argh(const int num_args, string *argh);
 	friend void set_ions_present();
+	friend void kill_coulomb();
 };
 
 //***************************************************************************//
@@ -182,6 +179,6 @@ class prog_control
 
 bool command_line_argh(const int num_args, string *argh);	//TODO: How do we make argh const?
 void set_ions_present();
+void kill_coulomb();
 
 #endif
-

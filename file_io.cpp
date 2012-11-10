@@ -81,15 +81,15 @@ bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end, int &num
 		reader(input_stream,' ',(atoms[i].velocity).y);
 		reader(input_stream,' ',(atoms[i].velocity).z);
 		input_stream.get(ch);
-		string str2 = string(ch);
+		string str2 = (string)&ch;
 		while((ch != '\n' || ch != ' '))
 		{
 			input_stream.get(ch);
-			str2 += string(ch);
+			str2 += (string)&ch;
 		}
 		if (ch == '\n')
 		{
-			atoms[i].mass = stof(str2);
+			atoms[i].atomic_mass = stof(str2);
 		}
 		else
 		{
