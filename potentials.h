@@ -11,14 +11,14 @@
 
 //Lennard Jones stuff:
 	//Force
-void lennard_jones_force(vector &force_direction, double &force_magnitude, vector separation, const double separation_magnitude);
+void lennard_jones_force(vector &force, vector separation, const double separation_magnitude);
 	//Potential
 void lennard_jones_potential(double &potential, const double separation);
 double lennard_jones_potential(const double separation);
 
 //Coulomb potential:
 	//Force
-void coulomb_force(vector &force_direction, double &force_magnitude, vector separation, const double separation_magnitude, const int charge_a, const int charge_b);
+void coulomb_force(vector &force, vector separation, const double separation_magnitude, const int charge_a, const int charge_b);
 	//Potential
 void coulomb_potential(double &potential, const double separation, const int charge_a, const int charge_b);
 double coulomb_potential(const double separation, const int charge_a, const int charge_b);

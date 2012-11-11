@@ -42,7 +42,9 @@ END OF FILE!
 //		working with vmd.
 
 bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end, int &num_ions);
+bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end);
 bool read_input(atom *&atoms, int &num_atoms, int &num_ions);	//Assumes last entry
+bool read_input(atom *&atoms, int &num_atoms);
 
 	//Output:
 //Name:		clear_file

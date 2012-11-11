@@ -31,24 +31,34 @@ int main(int argc, char **argv)
 	for(int i=0; i < argc; i++) argv_string[i] = argv[i];
 
 	int num_atoms;
-	int num_ions;
 	atom *atoms;
+	
+	//Deal with command line arguments:
+	if(command_line_argh(argc, argv_string) == 1) return 1;
 	
 	cout << "Reading atoms in from file..." << endl;
 	//Read input file from location specified in arguments.
-	if(read_input(atoms, num_atoms, 1, num_ions) == 1) return 1;
-	cout << "Found " << num_atoms << " particles in input file.\n" << endl;
-	if (num_ions > 0) set_ions_present();
-	if(settings.get_ions_present() == 1)
+	if (settings.get_use_coulomb() == 1 ) //Check if Coulomb potential has been switched off
 	{
-		cout << num_ions << " ions present!" << endl;
+		int num_ions;
+		if(read_input(atoms, num_atoms, 1, num_ions) == 1) return 1;
+		cout << "Found " << num_atoms << " particles in input file.\n" << endl;
+		if (num_ions > 0) 
+		{
+			cout << num_ions << " ions present! Coulomb potential is automatically turned on." << endl;
+		}
+		else
+		{
+			kill_coulomb();
+			cout << "No ions found!" << endl;
+		}
 	}
-	else kill_coulomb(); // Do not use Coulomb potential if no ions are found
-
-	//Deal with command line arguments:
-	if(command_line_argh(argc, argv_string) == 1) return 1;
-	if(settings.get_use_coulomb() == 1) cout << "Coulomb potential automatically applied." << endl;
-	else {cout << "Coulomb potential switched off." << endl;}
+	else
+	{
+		if(read_input(atoms,num_atoms,1) == 1) return 1;
+		cout << "Found " << num_atoms << " particles in file." << endl;
+		cout <<"WARNING: Some of these may be ions. You have turned off the Coulomb potential at your own risk!" << endl;
+	}
 	
 	//Output recorded settings for debugging:
 	settings.output();

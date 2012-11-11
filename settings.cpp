@@ -48,7 +48,6 @@ double prog_control::get_expected_temp() {return expected_temp; }
 bool prog_control::start_monitor_actual_temp() {return monitor_actual_temp; }
 
 //Ions
-bool prog_control::get_ions_present() {return ions_present;}
 bool prog_control::get_use_coulomb() {return use_coulomb;}
 
 //Periodic boundary conditions settings
@@ -585,12 +584,4 @@ bool command_line_argh(const int num_args, string *argh)
 	return 0;
 }
 
-void set_ions_present()
-{
-	settings.ions_present = 1;
-}
-
-void kill_coulomb()
-{
-	settings.use_coulomb = 0;
-}
+bool kill_coulomb() { settings.use_coulomb = 0; } //Turn Coulomb off

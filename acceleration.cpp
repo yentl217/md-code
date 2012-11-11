@@ -30,8 +30,7 @@ void acceleration(atom *atoms, const int num_atoms)
 		{
 			//Calculate separation of atoms
 			vector separation = atoms[i].position - atoms[j].position; 
-			double force_magnitude = 0.0;
-			vector force_direction;	
+			vector force;
 			if (settings.get_pbc() == 1) 
 			{
 				//check if either copy of atom j within cellsize of atom i along an axis is within cutoff of atom i along that axis
@@ -52,15 +51,18 @@ void acceleration(atom *atoms, const int num_atoms)
 					{
 						//Calculate forces on atoms
 						double separation_magnitude = separation.magnitude();
-						lennard_jones_force(force_direction, force_magnitude, separation, separation_magnitude);
+						lennard_jones_force(force, separation, separation_magnitude);
+						atoms[i].acceleration += force/atoms[i].atomic_mass;
+						atoms[j].acceleration -= force/atoms[j].atomic_mass;
+						force.set_vector();
 						if (settings.get_use_coulomb() == 1)
 						{
-							coulomb_force(force_direction, force_magnitude, separation, separation_magnitude, atoms[i].charge, atoms[j].charge);
+							coulomb_force(force,separation,separation_magnitude,atoms[i].charge,atoms[j].charge);
 						}
 						
 						//Update acceleration of atoms
-						atoms[i].acceleration += force_magnitude*force_direction/atoms[i].atomic_mass;
-						atoms[j].acceleration -= force_magnitude*force_direction/atoms[j].atomic_mass;
+						atoms[i].acceleration += force/atoms[i].atomic_mass;
+						atoms[j].acceleration -= force/atoms[j].atomic_mass;
 						break;
 					}
 				}
@@ -71,14 +73,17 @@ void acceleration(atom *atoms, const int num_atoms)
 				if (separation_magnitude <= settings.get_cutoff()) 
 				{
 					//Calculate forces on atoms
-					lennard_jones_force(force_direction,force_magnitude,separation,separation_magnitude);
+					//lennard_jones_force(force,separation,separation_magnitude);
+					//atoms[i].acceleration += force/atoms[i].atomic_mass;
+					//atoms[j].acceleration -= force/atoms[j].atomic_mass;
+					//force.set_vector();
 					if (settings.get_use_coulomb() == 1)
 					{
-						coulomb_force(force_direction, force_magnitude, separation, separation_magnitude, atoms[i].charge, atoms[j].charge);
+						coulomb_force(force,separation,separation_magnitude,atoms[i].charge,atoms[j].charge);
 					}
 					//Calculate acceleration of atoms
-					atoms[i].acceleration += force_magnitude*force_direction/atoms[i].atomic_mass;
-					atoms[j].acceleration -= force_magnitude*force_direction/atoms[j].atomic_mass;
+					atoms[i].acceleration += force/atoms[i].atomic_mass;
+					atoms[j].acceleration -= force/atoms[j].atomic_mass;
 				}
 			}
 		}

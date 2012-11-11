@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 
 #include "analysis.h"
 #include "atom.h"
@@ -55,7 +56,7 @@ double potential_energy(atom *atoms, const int num_atoms)
 					if (separation.magnitude() <= settings.get_cutoff()) 
 					{
 						//Calculate potential between atoms
-						potential_energy += lennard_jones_potential(separation.magnitude());
+						//potential_energy += lennard_jones_potential(separation.magnitude());
 						if (settings.get_use_coulomb() == 1)
 						{
 							potential_energy += coulomb_potential(separation.magnitude(),atoms[i].charge,atoms[j].charge);
@@ -70,7 +71,7 @@ double potential_energy(atom *atoms, const int num_atoms)
 				if (separation_magnitude <= settings.get_cutoff()) 
 				{
 					//Calculate potential between atoms
-					potential_energy += lennard_jones_potential(separation_magnitude);
+					//potential_energy += lennard_jones_potential(separation_magnitude);
 					if (settings.get_use_coulomb() == 1)
 					{
 						potential_energy += coulomb_potential(separation.magnitude(),atoms[i].charge,atoms[j].charge);

@@ -34,7 +34,6 @@ class prog_control
 	bool monitor_actual_temp;	//display actual temperature?
 	
 	//Ions
-	bool ions_present;		//Are there ions?
 	bool use_coulomb;		//Are we applying the Coulomb potential?
 	
 	//Periodic boundary conditions settings
@@ -86,8 +85,7 @@ class prog_control
 		monitor_actual_temp = 0;
 		
 		//Ions
-		ions_present = 0;
-		use_coulomb = 1;
+		use_coulomb = 0;
 		
 		//Periodic boundary conditions settings
 		pbc = 0;
@@ -128,7 +126,6 @@ class prog_control
 	double actual_temp;
 	
 	//Ions
-	bool get_ions_present();
 	bool get_use_coulomb();
 	
 	//Periodic boundary conditions settings
@@ -153,8 +150,7 @@ class prog_control
 	
 	//Command line argument function needs access to this class' private members
 	friend bool command_line_argh(const int num_args, string *argh);
-	friend void set_ions_present();
-	friend void kill_coulomb();
+	friend bool kill_coulomb();
 };
 
 //***************************************************************************//
@@ -178,7 +174,6 @@ class prog_control
 //		check types are correct TESTING.
 
 bool command_line_argh(const int num_args, string *argh);	//TODO: How do we make argh const?
-void set_ions_present();
-void kill_coulomb();
+bool kill_coulomb();
 
 #endif
