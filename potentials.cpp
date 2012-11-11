@@ -25,7 +25,7 @@ void lennard_jones_force(vector &force, vector separation, const double separati
 			
 	//Calculate the magnitude of the force between the atoms
 	double force_magnitude = 4 * settings.get_epsilon() * (12*pow(settings.get_sigma(),12)/pow(separation_magnitude,13) - 6*pow(settings.get_sigma(),6)/pow(separation_magnitude,7));
-	force = force_direction*force_magnitude;
+	force += force_direction*force_magnitude;
 }
 
 void lennard_jones_potential(double &potential, const double separation)
@@ -56,7 +56,7 @@ void coulomb_force(vector &force, vector separation, const double separation_mag
 	}
 	vector force_direction = charge_a*charge_b*separation.unit_vector();
 	double force_magnitude = abs(charge_a*charge_b)/(separation_magnitude*separation_magnitude);
-	force = force_direction*force_magnitude;
+	force += force_direction*force_magnitude;
 }
 
 void coulomb_potential(double &potential, const double separation, const int charge_a, const int charge_b)

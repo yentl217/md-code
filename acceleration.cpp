@@ -52,14 +52,10 @@ void acceleration(atom *atoms, const int num_atoms)
 						//Calculate forces on atoms
 						double separation_magnitude = separation.magnitude();
 						lennard_jones_force(force, separation, separation_magnitude);
-						atoms[i].acceleration += force/atoms[i].atomic_mass;
-						atoms[j].acceleration -= force/atoms[j].atomic_mass;
-						force.set_vector();
 						if (settings.get_use_coulomb() == 1)
 						{
 							coulomb_force(force,separation,separation_magnitude,atoms[i].charge,atoms[j].charge);
-						}
-						
+						}						
 						//Update acceleration of atoms
 						atoms[i].acceleration += force/atoms[i].atomic_mass;
 						atoms[j].acceleration -= force/atoms[j].atomic_mass;
@@ -74,9 +70,6 @@ void acceleration(atom *atoms, const int num_atoms)
 				{
 					//Calculate forces on atoms
 					//lennard_jones_force(force,separation,separation_magnitude);
-					//atoms[i].acceleration += force/atoms[i].atomic_mass;
-					//atoms[j].acceleration -= force/atoms[j].atomic_mass;
-					//force.set_vector();
 					if (settings.get_use_coulomb() == 1)
 					{
 						coulomb_force(force,separation,separation_magnitude,atoms[i].charge,atoms[j].charge);
