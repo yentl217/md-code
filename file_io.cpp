@@ -171,25 +171,9 @@ bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end, int &num
 		reader(input_stream,' ',(atoms[i].velocity).x);
 		reader(input_stream,' ',(atoms[i].velocity).y);
 		reader(input_stream,' ',(atoms[i].velocity).z);
-		input_stream.get(ch);
-		string str2 = (string)&ch;
-		while((ch != '\n' && ch != ' '))
-		{
-			input_stream.get(ch);
-			str2 += (string)&ch;
-		}
-		if (ch == '\n')
-		{
-			atoms[i].atomic_mass = stof(str2);
-		}
-		else if (ch == ' ')
-		{
-			atoms[i].charge = stoi(str2);
-			cout << atoms[i].charge << endl;
-			reader(input_stream,'\n',atoms[i].atomic_mass);
-			num_ions += 1;
-		}
-		atoms[i].atom_id = i;
+		reader(input_stream,' ',atoms[i].charge);
+		reader(input_stream,' ',atoms[i].atomic_mass);
+		
 		//Output them to screen for verification if command line option enabled
 		if(settings.is_print_initial_atom_data() == 1)
 		{
@@ -201,6 +185,10 @@ bool read_input(atom *&atoms, int &num_atoms, const int entry_from_end, int &num
 			cout << "ID: " << atoms[i].atom_id << "\n\n";
 		}
 	}
+	
+	//Count number of ions present
+	for(int i=0; i < num_atoms; i++) if(atoms[i].charge != 0) num_ions++;
+	
 	return 0;
 }	
 
@@ -259,7 +247,16 @@ bool output_state(atom *atoms, const int numatoms)
 	//Output information about each atom - SEE ABOVE BEFORE MODIFYING!!!
 	for(int i=0; i < numatoms; i++)
 	{
-		mystream << "atom" << i << " " << (atoms[i].position).x << " " << (atoms[i].position).y << " " << (atoms[i].position).z << " " << (atoms[i].velocity).x << " " << (atoms[i].velocity).y << " " << (atoms[i].velocity).z << " " << atoms[i].charge <<" "<< atoms[i].atomic_mass << endl;
+		mystream << "atom" << i << " "
+			 << (atoms[i].position).x << " "
+			 << (atoms[i].position).y << " "
+			 << (atoms[i].position).z << " "
+			 << (atoms[i].velocity).x << " "
+			 << (atoms[i].velocity).y << " "
+			 << (atoms[i].velocity).z << " "
+			 << atoms[i].charge << " "
+			 << atoms[i].atomic_mass
+			 << endl;
 	}
 	
 	return 0;
