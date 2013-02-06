@@ -132,7 +132,13 @@ void prog_control::output()
 bool command_line_argh(const int num_args, string *argh)
 {
 	//Usage text:
-	const string usage_text = "Usage: mmm [-d|--damped-md] [--dummy] [-e|--epsilon <epsilon> [<unit>]]\n\t   [-h|--help [<command>]] [-i|--input-file <input file>]\n\t   [-n|--num-steps <number of steps>] [-o|--output-file <output file>]\n\t   [-p|--periodic-boundaries] [--print-initial-atom-data]\n\t   [-s|--integration-method] [--sigma <sigma> [<units>]]\n\t   [-z|--stepsize <stepsize> [<units>]] [--steps-per-output]\n\t    [-t|--temperature <desired temperature> [<monitor>]]";
+	const string usage_text = "Usage: mmm [-d|--damped-md] [--dummy] [-e|--epsilon <epsilon> [<unit>]]\n"
+				  "\t   [-h|--help [<command>]] [-i|--input-file <input file>]\n"
+				  "\t   [-n|--num-steps <number of steps>] [-o|--output-file <output file>]\n"
+				  "\t   [-p|--periodic-boundaries] [--print-initial-atom-data]\n"
+				  "\t   [-s|--integration-method] [--sigma <sigma> [<units>]]\n"
+				  "\t   [-z|--stepsize <stepsize> [<units>]] [--steps-per-output]\n"
+				  "\t   [-t|--temperature <desired temperature> [<monitor>]]";
 	
 	if(num_args < 2)
 	{
