@@ -45,9 +45,8 @@ void euler(atom *atoms, const int num_atoms)
 		for(int i = 0; i < num_atoms; i++)
 		{
 			gaussian_thermostat(actual_temp, settings.get_expected_temp(), atoms[i].velocity);
-			
 		}
-	} 
+	}
 }
 
 void velocity_verlet(atom *atoms, const int num_atoms)
@@ -73,7 +72,7 @@ void velocity_verlet(atom *atoms, const int num_atoms)
 		{
 			gaussian_thermostat(actual_temp, settings.get_expected_temp(), atoms[i].velocity);
 		}
-	} 
+	}
 }
 
 void runge_kutta(atom *atoms, const int num_atoms, atom* temp_atoms, atom *original_atoms)
@@ -134,5 +133,5 @@ void runge_kutta(atom *atoms, const int num_atoms, atom* temp_atoms, atom *origi
 		{
 			gaussian_thermostat(actual_temp, settings.get_expected_temp(), atoms[i].velocity);
 		}
-	} 
+	}
 }
