@@ -7,7 +7,7 @@
 using namespace std;
 
 /*
-File format for vmd:
+File format required for vmd:
 START OF FILE! No empty lines can go here, the number of atoms must be first
 [ N ] Number of atoms
 [ molecule name ] name of molecule (can be blank)
@@ -15,6 +15,15 @@ atom1 x y z [optional data] atom name followed by xyz coords
 atom2 x y z [ ...         ] and and (optionally) other data.
 ...                        
 atomN x y z [ ...         ]
+END OF FILE!
+
+File format used currently:
+START OF FILE!
+Number of atoms
+Total energy
+atom[atom number] x-position y-position z-position x-velocity y-velocity z-velocity charge mass
+...
+atom[last atom] x-position y-position z-position x-velocity y-velocity z-velocity charge mass
 END OF FILE!
 */
 

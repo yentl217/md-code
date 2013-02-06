@@ -233,6 +233,12 @@ bool clear_file(const string file_location)
 	}
 }
 
+/*READ BEFORE MODIFYING THE FOLLOWING FUNCTION!!!
+
+So as to keep a record of the format in use, please update the file format 
+comment at the beginning of file_io.h whenever editing this function.
+*/
+
 bool output_state(atom *atoms, const int numatoms)
 {
 	string output_file_location = settings.get_output_file_location();
@@ -250,7 +256,7 @@ bool output_state(atom *atoms, const int numatoms)
 	mystream << numatoms << endl;
 	mystream << "Total energy: " << current_energy << " eV" << endl;
 	
-	//Output information about each atom
+	//Output information about each atom - SEE ABOVE BEFORE MODIFYING!!!
 	for(int i=0; i < numatoms; i++)
 	{
 		mystream << "atom" << i << " " << (atoms[i].position).x << " " << (atoms[i].position).y << " " << (atoms[i].position).z << " " << (atoms[i].velocity).x << " " << (atoms[i].velocity).y << " " << (atoms[i].velocity).z << " " << atoms[i].charge <<" "<< atoms[i].atomic_mass << endl;
